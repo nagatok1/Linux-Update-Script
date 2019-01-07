@@ -1,0 +1,7 @@
+ls /home/nagatok/Desktop/sqlupdates | grep -v -i '^[a-z]' | grep .sql | sort -g | sed 's/^[^0-9]*//;s/[^0-9].*$//' | tee output.txt
+
+file="/home/nagatok/Desktop/output.txt"
+while IFS= read -r line
+do
+sqlite3 /home/nagatok/Desktop/sqldb/db1 "UPDATE versionID SET versionID = $line WHERE versionID < $line"
+done <"$file"
